@@ -1,19 +1,17 @@
 class Solution(object):
     def findAnagrams(self, s, p):
-        n = len(s)
-        m = len(p)
+        anagram = ''.join(sorted(p))
+        window = ''
+        indicies = []
+        window_start = 0
 
-        p = Counter(p)
-        answer = []
-        window = None
+        for char in s:
+            window += char
+            if len(window) == len(anagram):
+                if ''.join(sorted(window)) == anagram:
+                    indicies.append(window_start)
+                window = window[1:] # remove left char of window
+                window_start += 1
+        return indicies
 
-        for i in range(0, n - m + 1):
-            if i == 0:
-                window = Counter(s[:m])
-            else:
-                window[s[i - 1]] -= 1
-                window[s[i + m - 1]] += 1
-            if len(window - p) == 0:
-                answer.append(i)
-
-        return answer
+        
